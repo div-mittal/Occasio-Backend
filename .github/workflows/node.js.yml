@@ -31,3 +31,10 @@ jobs:
           touch .env
     - run: |
           echo "${{ secrets.BACKEND_ENV_FILE }}" | tr -d '\r' > .env
+
+    - run: |
+        echo "PORT=9002" > .env
+        echo "CORS_ORIGIN=*" >> .env
+        echo ".env file content:"
+        cat .env
+
