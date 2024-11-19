@@ -30,11 +30,7 @@ jobs:
     - run: |
           touch .env
     - run: |
-          echo "${{ secrets.BACKEND_ENV_FILE }}" | tr -d '\r' > .env
+        echo "${{ secrets.BACKEND_ENV_FILE }}" | sed 's/\r$//' > .env
+        echo ".env file created with $(wc -l .env) lines"
 
-    - run: |
-        echo "PORT=9002" > .env
-        echo "CORS_ORIGIN=*" >> .env
-        echo ".env file content:"
-        cat .env
 
