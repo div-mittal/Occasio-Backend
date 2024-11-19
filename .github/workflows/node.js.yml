@@ -31,6 +31,6 @@ jobs:
           touch .env
     - run: |
         echo "${{ secrets.BACKEND_ENV_FILE }}" | sed 's/\r$//' > .env
-        echo ".env file created with $(wc -l .env) lines"
+        echo ".env file created with $(wc -l .env) line"
 
 
