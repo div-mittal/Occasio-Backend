@@ -17,7 +17,6 @@ jobs:
     strategy:
       matrix:
         node-version: [22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v4
@@ -27,10 +26,3 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: |
-          touch .env
-    - run: |
-        echo "${{ secrets.BACKEND_ENV_FILE }}" | sed 's/\r$//' > .env
-        echo ".env file created with $(wc -l .env) line"
-
-
