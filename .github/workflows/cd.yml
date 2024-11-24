@@ -23,8 +23,8 @@ jobs:
       run: |
         sudo docker run -d -p 9002:9002 \
           --name occasio-backend-container \
-          -e NODE_ENV=development \
-          divmittal04/occasio-backend:latest
+          --env-file .env \
+          divmittal04/occasio-backend:latest    
 
     - name: Verify Deployment
       run: |
