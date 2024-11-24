@@ -27,6 +27,10 @@ app.use(express.static("public"));
 
 app.use(cookieParser());
 
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+  });
+
 // routes declaration
 app.use("/api/v1/organizers", organizerRouter);
 app.use("/api/v1/events", eventRouter);

@@ -20,9 +20,25 @@ jobs:
       run: sudo docker rm -f occasio-backend-container || true
 
     - name: Run the New Docker Container
-      run: sudo docker run -d -p 9002:9002 --name occasio-backend-container divmittal04/occasio-backend:latest
+      run: |
+        sudo docker run -d -p 9002:9002 \
+          --name occasio-backend-container \
+          -e NODE_ENV=development \
+          divmittal04/occasio-backend:latest
 
     - name: Verify Deployment
       run: |
-        sleep 5  # Give some time for the container to start
-        curl -f http://localhost:9002/health || exit 1
+        for i in {1..10}; do
+          if curl -f http://localhost:9002/health; then
+            echo "Server is up!";
+            exit 0;
+          fi;
+          echo "Waiting for server...";
+          sleep 5;
+        done;
+        echo "Server did not start in time.";
+        exit 1;
+
+    - name: Check Container Logs on Failure
+      if: failure()
+      run: sudo docker logs occasio-backend-container
