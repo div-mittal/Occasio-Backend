@@ -1,38 +1,51 @@
 name: CD pipeline
 
 on:
-    workflow_run:
-        workflows: ["CI pipeline"]
-        types:
-          - completed
+  workflow_run:
+    workflows: ["CI pipeline"]
+    types:
+      - completed
 
 jobs:
-
   deploy:
-
-    runs-on: self-hosted 
+    runs-on: self-hosted
 
     steps:
-    - name: Pull the Docker Image from Docker Hub
+    # Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Verify the presence of .env file
+    - name: Ensure .env file is available
+      run: |
+        echo "Checking for .env file..."
+        if [ ! -f .env ]; then
+          echo ".env file not found in the working directory!"
+          exit 1
+        fi
+        echo ".env file found!"
+
+    # Pull the Docker image
+    - name: Pull the Docker image from Docker Hub
       run: sudo docker pull divmittal04/occasio-backend:latest
 
-    - name: Stop and Remove the Old Docker Container
+    # Stop and remove the old container
+    - name: Stop and remove the old Docker container
       run: sudo docker rm -f occasio-backend-container || true
 
-    - name: List Files
-      run: ls -la
-    
-    - name: Run the New Docker Container
+    # Run the new Docker container with .env file
+    - name: Start the new Docker container
       run: |
         sudo docker run -d -p 9002:9002 \
           --name occasio-backend-container \
           --env-file .env \
-          divmittal04/occasio-backend:latest    
+          divmittal04/occasio-backend:latest
 
+    # Verify the deployment
     - name: Verify Deployment
       run: |
         for i in {1..10}; do
-          if curl -f http://localhost:9002/health; then
+          if curl -f http://localhost:9002/; then
             echo "Server is up!";
             exit 0;
           fi;
@@ -42,6 +55,7 @@ jobs:
         echo "Server did not start in time.";
         exit 1;
 
+    # Check the container logs on failure
     - name: Check Container Logs on Failure
       if: failure()
       run: sudo docker logs occasio-backend-container
