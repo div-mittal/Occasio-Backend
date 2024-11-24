@@ -14,12 +14,6 @@ jobs:
     # Checkout the code
     - name: Checkout code
       uses: actions/checkout@v4
-
-    # Create .env file
-    - name: Create .env file
-      run: |
-        echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
-        cat .env
     
     # Verify the presence of .env file
     - name: Ensure .env file is available
