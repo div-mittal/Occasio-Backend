@@ -18,7 +18,13 @@ jobs:
 
     - name: Stop and Remove the Old Docker Container
       run: sudo docker rm -f occasio-backend-container || true
+    
+    - name: Print Working Directory
+      run: pwd
 
+    - name: List Files
+      run: ls -la
+    
     - name: Run the New Docker Container
       run: |
         sudo docker run -d -p 9002:9002 \
