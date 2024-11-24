@@ -1,0 +1,28 @@
+name: CD pipeline
+
+on:
+    workflow_run:
+        workflows: ["CI pipeline"]
+        types:
+          - completed
+
+jobs:
+
+  deploy:
+
+    runs-on: self-hosted
+
+    steps:
+    - name: Pull the Docker Image from Docker Hub
+      run: sudo docker pull divmittal04/occasio-backend:latest
+
+    - name: Stop and Remove the Old Docker Container
+      run: sudo docker rm -f occasio-backend-container || true
+
+    - name: Run the New Docker Container
+      run: sudo docker run -d -p 9002:9002 --name occasio-backend-container divmittal04/occasio-backend:latest
+
+    - name: Verify Deployment
+      run: |
+        sleep 5  # Give some time for the container to start
+        curl -f http://localhost:9002/health || exit 1
