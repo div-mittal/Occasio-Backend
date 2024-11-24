@@ -591,7 +591,11 @@ const sendRSVPMailsToParticipants = asyncHandler(async (req, res) => {
 
     const rsvpLink = `${process.env.FRONTEND_URL}/events/${eventid}`;
 
-    const message = `Dear Participant,\n\nYou are invited to RSVP for the event "${event.title}".\n\nLocation: ${event.location}\nDate: ${event.date}\nTime: ${event.time}\n\nPlease RSVP at your earliest convenience by clicking the link below:\n\n${rsvpLink}\n\nBest regards,\n${event.createdBy.name}`;
+    //TODO: check the mail content The name of the organizer is showing undefined
+
+    const organizer = await Organizer.findById(event.createdBy)
+
+    const message = `Dear Participant,\n\nYou are invited to RSVP for the event "${event.title}".\n\nLocation: ${event.location}\nDate: ${event.date}\nTime: ${event.time}\n\nPlease RSVP at your earliest convenience by clicking the link below:\n\n${rsvpLink}\n\nBest regards,\n${organizer.name}`;
 
     const mailOptions = {
         to: participantEmails,

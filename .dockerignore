@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+yarn-error.log
+.env
+.DS_Store
+.git
+.gitignore
+.vscode
+.idea
