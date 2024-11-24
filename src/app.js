@@ -36,5 +36,4 @@ app.use("/api/v1/organizers", organizerRouter);
 app.use("/api/v1/events", eventRouter);
 app.use("/api/v1/users", userRoutes);
 
-
 export { app }
