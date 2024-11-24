@@ -34,7 +34,7 @@ jobs:
             exit 0;
           fi;
           echo "Waiting for server...";
-          sleep 5;
+          sleep 1;
         done;
         echo "Server did not start in time.";
         exit 1;
