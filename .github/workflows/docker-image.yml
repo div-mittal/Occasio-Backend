@@ -17,6 +17,6 @@ jobs:
     - name: Log in to Docker Hub
       run:  docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
     - name: Build the Docker image
-      run: docker build -t occasio-Backend .
+      run: docker build -t occasio-backend .
     - name: Push the Docker image
-      run: docker push divmittal04/occasio-Backend:latest
+      run: docker push divmittal04/occasio-backend:latest
