@@ -15,8 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Log in to Docker Hub
-      run:  docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+      run: docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
     - name: Build the Docker image
-      run: docker build -t occasio-backend .
+      run: docker build -t divmittal04/occasio-backend:latest .
     - name: Push the Docker image
       run: docker push divmittal04/occasio-backend:latest
