@@ -10,7 +10,7 @@ jobs:
 
   deploy:
 
-    runs-on: self-hosted
+    runs-on: self-hosted 
 
     steps:
     - name: Pull the Docker Image from Docker Hub
